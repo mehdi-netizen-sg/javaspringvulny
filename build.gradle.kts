@@ -8,6 +8,10 @@ plugins {
 }
 apply(plugin = "io.spring.dependency-management")
 
+dependencyLocking {
+    lockAllConfigurations()
+}
+
 repositories {
     mavenCentral()
 }
