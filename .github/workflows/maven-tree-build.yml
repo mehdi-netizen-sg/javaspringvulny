@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Maven Tree Build
 
 on:
   push:
@@ -19,4 +19,9 @@ jobs:
       - name: Generate Maven Dependency Tree
         run: |
           find . -name "pom.xml" -execdir mvn dependency:tree -DoutputFile=maven_dep_tree.txt -Dmaven.test.skip=true \;
-      # Semgrep Managed Scan GitHub App will pick up here
+      - name: Upload Dependency Tree
+        uses: actions/upload-artifact@v3
+        with:
+          name: maven-tree
+          path: '**/maven_dep_tree.txt'
+
