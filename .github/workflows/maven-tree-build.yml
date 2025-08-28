@@ -1,0 +1,22 @@
+name: Docker Image CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  build-maven:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Java
+        uses: actions/setup-java@v3
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+      - name: Generate Maven Dependency Tree
+        run: |
+          find . -name "pom.xml" -execdir mvn dependency:tree -DoutputFile=maven_dep_tree.txt -Dmaven.test.skip=true \;
+      # Semgrep Managed Scan GitHub App will pick up here
